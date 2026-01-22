@@ -167,12 +167,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h4 className="text-lg font-bold mb-4">Contact Us</h4>
               <div className="space-y-4 text-sm text-slate-300">
-                <p className="flex items-center gap-3 group cursor-pointer hover:text-white transition-colors">
+                <a href="mailto:operations@green-india.in" className="flex items-center gap-3 group cursor-pointer hover:text-white transition-colors">
                   <span className="p-2 rounded-lg bg-slate-800 text-primary group-hover:bg-primary group-hover:text-white transition-all">
                     <Mail className="w-4 h-4" />
                   </span>
-                  contact@gies.co.in
-                </p>
+                  operations@green-india.in
+                </a>
                 <p className="flex items-center gap-3 group cursor-pointer hover:text-white transition-colors">
                   <span className="p-2 rounded-lg bg-slate-800 text-primary group-hover:bg-primary group-hover:text-white transition-all">
                     <Phone className="w-4 h-4" />
