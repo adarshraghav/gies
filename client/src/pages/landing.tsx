@@ -19,6 +19,12 @@ import inductAQIHero from "@assets/Gemini_Generated_Image_5i5k195i5k195i5k_17689
 
 const slides = [
   {
+    image: heroImage,
+    title: "Global Industrial Excellence",
+    description: "Green India Ecotech Services (GIES) is a global leader in sustainable infrastructure and industrial solutions. Building a resilient future for generations to come.",
+    tag: "Green India Ecotech Services"
+  },
+  {
     image: ecFanImage,
     title: "Precision Environmental Control",
     description: "From advanced Air Quality Monitors to high-efficiency AHUs and Water Dosage systems, GIES provides the critical infrastructure for sustainable industrial operations.",
@@ -35,17 +41,26 @@ const slides = [
     title: "Intelligence for Indoor Spaces",
     description: "Our enterprise-grade Indoor Air Quality monitors provide real-time data and automated control for healthier, more productive workspaces.",
     tag: "Advanced Sensing Technology"
-  },
-  {
-    image: heroImage,
-    title: "Global Industrial Excellence",
-    description: "Green India Ecotech Services (GIES) is a global leader in sustainable infrastructure and industrial solutions. Building a resilient future for generations to come.",
-    tag: "Green India Ecotech Services"
   }
 ];
 
 export default function LandingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Preload hero slide images for smoother transitions
+  useEffect(() => {
+    // Preload all slide images in the background after first paint
+    const preloadImages = () => {
+      slides.forEach((slide) => {
+        const img = new Image();
+        img.src = slide.image;
+      });
+    };
+    
+    // Preload after a short delay to not block initial render
+    const timeoutId = setTimeout(preloadImages, 100);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -74,6 +89,8 @@ export default function LandingPage() {
               src={slides[currentSlide].image}
               alt={slides[currentSlide].title}
               className="w-full h-full object-cover"
+              fetchPriority={currentSlide === 0 ? "high" : "auto"}
+              loading={currentSlide === 0 ? "eager" : "lazy"}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent" />
           </motion.div>
@@ -345,6 +362,8 @@ export default function LandingPage() {
                 src={airMonitorImage} 
                 alt="GIES Indoor Air Quality Monitor" 
                 className="relative z-10 rounded-2xl shadow-2xl border border-white"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
           </div>
@@ -366,6 +385,8 @@ export default function LandingPage() {
                 src={inductAQIImage} 
                 alt="GIES In-Duct AQI Monitor" 
                 className="relative z-10 rounded-2xl shadow-2xl border border-white"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
 
@@ -452,6 +473,8 @@ export default function LandingPage() {
                 src={ecFanImage} 
                 alt="GIES EC Fan" 
                 className="relative z-10 rounded-2xl shadow-2xl border border-white"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
           </div>
