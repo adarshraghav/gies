@@ -4,11 +4,6 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "outputDirectory": "dist/public",
-  "functions": {
-    "api/[...path].ts": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
