@@ -1,3 +1,17 @@
+// Polyfill for crypto.hash if not available (Node.js compatibility issues)
+import crypto from "crypto";
+if (typeof crypto.hash !== "function") {
+  (crypto as any).hash = function (
+    algorithm: string,
+    data: string | Buffer | Uint8Array,
+    encoding?: BufferEncoding,
+  ): string | Buffer {
+    const hash = crypto.createHash(algorithm);
+    hash.update(data);
+    return encoding ? hash.digest(encoding) : hash.digest();
+  };
+}
+
 import { createApp, log } from "./app";
 
 (async () => {
@@ -22,5 +36,13 @@ import { createApp, log } from "./app";
     () => {
       log(`serving on port ${port}`);
     },
-  );
+  ).on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EADDRINUSE") {
+      log(`Port ${port} is already in use. Please free the port or use a different PORT environment variable.`, "error");
+      process.exit(1);
+    } else {
+      log(`Server error: ${err.message}`, "error");
+      process.exit(1);
+    }
+  });
 })();
